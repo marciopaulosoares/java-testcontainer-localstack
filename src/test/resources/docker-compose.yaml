@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  localstack:
+    image: localstack/localstack:stable
+    ports:
+      - "127.0.0.1:8000:8000"
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559"  # external services port range
+#    networks:
+#      - my_bridge_network
+    environment:
+      # LocalStack configuration: https://docs.localstack.cloud/references/configuration/
+      - HOSTNAME_EXTERNAL=localstack
+      - HOSTNAME=localstack
+      - DEBUG=1
+      - SERVICES=dynamodb
+      - SKIP_SSL_CERT_DOWNLOAD=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./init-aws/01-tables.sh:/etc/localstack/init/ready.d/01-tables.sh"
+      - "./data/01-table-playerhistory.json:/var/run/config/data/01-table-playerhistory.json"
+
+#networks:
+#  my_bridge_network:
+#    driver: bridge

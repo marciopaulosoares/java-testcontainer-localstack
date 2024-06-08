@@ -1,0 +1,24 @@
+{
+  "TableName": "player_history_entity",
+  "KeySchema": [
+    {
+      "KeyType": "HASH",
+      "AttributeName": "username"
+    },
+    {
+      "KeyType": "RANGE",
+      "AttributeName": "game_id"
+    }
+  ],
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "username",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "game_id",
+      "AttributeType": "S"
+    }
+  ],
+  "BillingMode": "PAY_PER_REQUEST"
+}
